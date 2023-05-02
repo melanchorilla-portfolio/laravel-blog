@@ -4,78 +4,67 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use App\Models\Category;
+use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $title = "Categories";
-        return view('admin.categories.index', compact('title'));
+        $categories = Category::latest()->paginate(10)->withQueryString();
+        if ($request->has('search')) {
+            $categories = Category::where('name', 'like', "%{$request->search}%")->paginate(10)->withQueryString();
+        }
+
+        return view('admin.categories.index', compact('title', 'categories'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
-    }
+        $title = "Create Category";
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+        return view('admin.categories.create', compact('title'));
+    }
+ 
+    public function store(CategoryRequest $request)
     {
-        //
+        Category::create([
+            'name' => $request->name,
+            'slug' => Str::slug(request('name')),
+        ]);
+
+        return redirect()->route('categories.index')->with('message', 'Category created successfully');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        //
+        $title = "Edit Category";
+
+        return view('admin.categories.edit', compact('title', 'category'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(Category $category, CategoryRequest $request)
     {
-        //
+        $category->update([
+            'name' => $request->name,
+            'slug' => Str::slug(request('name')),
+        ]);
+
+        return redirect()->route('categories.index')->with('message', 'Category updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return redirect()->route('categories.index')->with('message', 'Category deleted successfully');
+
     }
 }
