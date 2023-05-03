@@ -46,7 +46,11 @@
                             </a>
                         </td>
                         <td>
-                            <img src="{{ asset('storage/uploads/' . $post->image) }}" alt="" width="200">
+                            @if($post->image)
+                                <img src="{{ asset('storage/uploads/' . $post->image) }}" alt="" width="200">
+                            @else
+                                No Image
+                            @endif
                         </td>
                         <td>{{ $post->user->name }}</td>
                         <td>{{ $post->category->name }}</td>

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\{ Auth, Route };
 use App\Http\Controllers\Admin\{CategoryController, TagController, PostController};
+use App\Models\Post;
 
 
 Route::get('/', function () {
@@ -15,7 +16,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::middleware('auth')->group(function () {
     Route::prefix('admin')->group(function () {
         Route::get('/', function () {
-            return view('admin.dashboard');
+            $posts = Post::with('category', 'tags')->take(3)->latest()->get();
+
+            return view('admin.dashboard', compact('posts'));
         });
         Route::resource('/categories', CategoryController::class);
         Route::resource('/tags', TagController::class);
