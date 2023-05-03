@@ -19,6 +19,9 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
+    <link href="/css/app.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
@@ -199,9 +202,10 @@
     <!-- Core JavaScript-->
     <script src="/js/app.js"></script>
 
-
     <!-- Custom scripts for all pages-->
     <script src="/js/sb-admin-2.min.js"></script>
+
+    @stack('scripts')
 
 </body>
 
