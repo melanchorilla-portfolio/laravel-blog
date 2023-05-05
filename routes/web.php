@@ -5,9 +5,11 @@ use App\Http\Controllers\Admin\{CategoryController, TagController, PostControlle
 use App\Models\Post;
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', [App\Http\Controllers\PostController::class, 'index']);
+Route::get('/post', [App\Http\Controllers\PostController::class, 'index']);
+Route::get('/post/{post:slug}', [App\Http\Controllers\PostController::class, 'show']);
+Route::view('about', 'about')->name('about');
 
 Auth::routes();
 
@@ -17,8 +19,9 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admin')->group(function () {
         Route::get('/', function () {
             $posts = Post::with('category', 'tags')->take(3)->latest()->get();
+            $title = 'Latest post';
 
-            return view('admin.dashboard', compact('posts'));
+            return view('admin.dashboard', compact('posts', 'title'));
         });
         Route::resource('/categories', CategoryController::class);
         Route::resource('/tags', TagController::class);
