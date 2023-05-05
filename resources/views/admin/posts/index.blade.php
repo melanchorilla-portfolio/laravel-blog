@@ -70,4 +70,9 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div>
+        {{ $posts->links() }}
+    </div>
+</div>
 @endsection

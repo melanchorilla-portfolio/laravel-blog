@@ -101,25 +101,7 @@
             </ul>
 
             <!-- search -->
-            <div class="search px-4">
-              <button id="searchOpen" class="search-btn">
-                <i class="fas fa-search"></i>
-              </button>
-              <div class="search-wrapper">
-                <form action="javascript:void(0)" class="h-100">
-                  <input
-                    class="search-box pl-4"
-                    id="search-query"
-                    name="s"
-                    type="search"
-                    placeholder="Type &amp; Hit Enter..."
-                  />
-                </form>
-                <button id="searchClose" class="search-close">
-                  <i class="fas fa-times text-dark"></i>
-                </button>
-              </div>
-            </div>
+            
           </div>
         </nav>
       </div>

@@ -6,8 +6,8 @@ use App\Models\Post;
 
 
 
-Route::get('/', [App\Http\Controllers\PostController::class, 'index']);
-Route::get('/post', [App\Http\Controllers\PostController::class, 'index']);
+Route::get('/', [App\Http\Controllers\PostController::class, 'index'])->name('posts');
+Route::get('/post', [App\Http\Controllers\PostController::class, 'index'])->name('posts');
 Route::get('/post/{post:slug}', [App\Http\Controllers\PostController::class, 'show']);
 Route::view('about', 'about')->name('about');
 

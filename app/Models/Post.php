@@ -36,4 +36,29 @@ class Post extends Model
         return 'slug';
     }
 
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? false, function($query, $search) {
+            return $query->where('title', 'like', '%' . $search . '%')
+                ->orWhere('post', 'like', '%' . $search . '%');
+        });
+
+        $query->when($filters['category'] ?? false, function($query, $category) {
+            return $query->whereHas('category', function($query) use ($category) {
+                $query->where('slug', $category);
+            });
+        });
+
+        $query->when($filters['tag'] ?? false, function($query, $tag) {
+            return $query->whereHas('tags', function($query) use ($tag) {
+                $query->where('slug', $tag);
+            });
+        });
+
+        $query->when($filters['author'] ?? false, function($query, $author) {
+            return $query->whereHas('author', function($query) use ($author) {
+                $query->where('name', $author);
+            });
+        });
+    }
 }
