@@ -25,7 +25,7 @@ class PostRequest extends FormRequest
     {
         return [
             'title'     => 'required',
-            'slug'     => 'required|unique:posts',
+            'slug'     => 'required',
             // 'image'     => 'nullable|image|dimensions:max_width=100,max_height=200',
             'image'     => 'nullable|image|mimes:jpeg,png,gif',
             'post'      => 'required',
