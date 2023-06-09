@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
         });
         Route::resource('/categories', CategoryController::class);
         Route::resource('/tags', TagController::class);
+        Route::get('/posts/check-slug', [PostController::class, 'checkSlug']);
         Route::resource('/posts', PostController::class);
     });
 });

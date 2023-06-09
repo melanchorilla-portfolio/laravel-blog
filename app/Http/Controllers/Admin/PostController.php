@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use \Cviebrock\EloquentSluggable\Services\SlugService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -42,7 +43,7 @@ class PostController extends Controller
         $post = Post::create([
             'title' => $request->title,
             'post' => $request->post,
-            'slug' => Str::slug($request->title),
+            'slug' => $request->slug,
             'image' => $image ?? null,
             'user_id' => auth()->user()->id,
             'category_id' => $request->category,
@@ -80,7 +81,7 @@ class PostController extends Controller
 
         $post->update([
             'title' => $request->title,
-            'slug' => Str::slug($request->title),
+            'slug' => $request->slug,
             'post' => $request->post,
             'image' => $filename ?? $post->image,
             'user_id' => auth()->user()->id,
@@ -102,5 +103,11 @@ class PostController extends Controller
         $post->delete();
         
         return redirect()->route('posts.index')->with('message', 'Post deleted successfully');
+    }
+
+    public function checkSlug(Request $request)
+    {
+        $slug = SlugService::createSlug(Post::class, 'slug', $request->title);
+        return response()->json(['slug' => $slug]);
     }
 }
