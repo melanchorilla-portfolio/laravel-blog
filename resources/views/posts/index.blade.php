@@ -46,10 +46,13 @@
                                     @endforeach
                             </li>
                         </ul>
-                        {!! Str::limit($post->post, 200) !!}
-    
-                        <a href="/post/{{ $post->slug }}" class="btn btn-outline-primary mt-3"
-                            >Continue Reading</a>
+                        {!! Str::limit($post->post, 150) !!}
+                        
+                        <div>
+                            <a href="/post/{{ $post->slug }}" class="btn btn-outline-primary mt-3"
+                                >Continue Reading</a>
+                        </div>
+
                     </div>
                 </article>
                 @endforeach
